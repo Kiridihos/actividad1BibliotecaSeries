@@ -1,0 +1,33 @@
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+
+# Build / cache
+dist/
+build/
+coverage/
+.cache/
+.sass-cache/
+.parcel-cache/
+.next/
+out/
+
+# Logs
+*.log
+
+# Misc
+.history/

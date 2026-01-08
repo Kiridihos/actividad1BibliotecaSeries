@@ -13,3 +13,7 @@ body {
 .nav-item.nav-link {
     margin-left: 1rem;
 }
+
+.id-text {
+    color: gray !important;
+}

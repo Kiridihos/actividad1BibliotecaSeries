@@ -38,7 +38,7 @@ class Platform
             'root',
             'root',
             'series',
-            8889,
+            3306,
         );
         $db = $dbConn->getConnection();
 

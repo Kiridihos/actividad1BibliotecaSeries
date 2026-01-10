@@ -23,11 +23,11 @@ require_once __DIR__ . '/../../templates/header.php';
                                 <th scope="row"><?php echo htmlspecialchars($platform->getId()); ?></th>
                                 <td><?php echo htmlspecialchars($platform->getName()); ?></td>
                                 <td>
-                                    <a href="index.php?entity=platforms&action=edit&id=<?php echo $platform->getId(); ?>"
+                                    <a href="?entity=platforms&action=edit&id=<?php echo $platform->getId(); ?>"
                                         class="btn btn-primary btn-sm">
                                         <i class="bi bi-pencil"></i> Editar
                                     </a>
-                                    <a href="index.php?entity=platforms&action=delete&id=<?php echo $platform->getId(); ?>"
+                                    <a href="?entity=platforms&action=delete&id=<?php echo $platform->getId(); ?>"
                                         class="btn btn-danger btn-sm">
                                         <i class="bi bi-trash"></i> Eliminar
                                     </a>

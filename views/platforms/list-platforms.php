@@ -1,6 +1,5 @@
 <?php
 $pageTitle = 'Plataformas de Streaming';
-require_once(__DIR__ . '/../../controllers/PlatformController.php');
 require_once __DIR__ . '/../../templates/header.php';
 ?>
 

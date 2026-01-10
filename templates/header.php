@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    
+
     <section class="container centered-content">
         <nav class="navbar navbar-expand-lg navbar-light align-items-center mb-4">
             <a class="navbar-brand" href="../../index.html">
@@ -34,5 +34,29 @@
                 </div>
             </div>
         </nav>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <?php if (isset($_SESSION['success'])) { ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <?php
+                            echo $_SESSION['success'];
+                            unset($_SESSION['success']);
+                            ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php } ?>
+                    <?php if (isset($_SESSION['error'])) { ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?php
+                            echo $_SESSION['error'];
+                            unset($_SESSION['error']);
+                            ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
         <h1 class="text-center my-4"><?php echo isset($pageTitle) ? $pageTitle : 'Biblioteca de series'; ?></h1>
     </section>

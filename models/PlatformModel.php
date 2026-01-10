@@ -70,6 +70,26 @@ class Platform
 
     }
 
+    public static function getByName($name)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+
+        $query = "SELECT * FROM plataformas WHERE LOWER(nombre) = LOWER(?)";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$name]);
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            $platform = new Platform($row['id'], $row['nombre']);
+        } else {
+            $platform = null;
+        }
+
+        $dbConn->closeConnection();
+        return $platform;
+    }
+
     public function save()
     {
         $dbConn = new DBConnection();
@@ -79,7 +99,7 @@ class Platform
             // Create new platform
             $query = 'INSERT INTO plataformas (nombre) VALUES (?)';
             $stmt = $db->prepare($query);
-            $result = $stmt->execute([$this->id]);
+            $result = $stmt->execute([$this->name]);
 
             if ($result) {
                 $this->id = $db->insert_id;

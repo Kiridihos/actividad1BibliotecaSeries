@@ -31,15 +31,9 @@ class Platform
         $this->id = $id;
     }
 
-    public function getAll()
+    public static function getAll()
     {
-        $dbConn = new DBConnection(
-            'localhost',
-            'root',
-            'root',
-            'series',
-            3306,
-        );
+        $dbConn = new DBConnection();
         $db = $dbConn->getConnection();
 
         $query = 'SELECT * FROM plataformas';
@@ -55,5 +49,94 @@ class Platform
         return $platforms;
 
     }
+    public static function getById($id)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+
+        $query = "SELECT * FROM plataformas WHERE id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$id]);
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            $platform = new Platform($row['id'], $row['nombre']);
+        } else {
+            $platform = null;
+        }
+
+        $dbConn->closeConnection();
+        return $platform;
+
+    }
+
+    public function save()
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+
+        if ($this->id == null) {
+            // Create new platform
+            $query = 'INSERT INTO plataformas (nombre) VALUES (?)';
+            $stmt = $db->prepare($query);
+            $result = $stmt->execute([$this->id]);
+
+            if ($result) {
+                $this->id = $db->insert_id;
+                return true;
+            }
+            return false;
+        } else {
+            // Update existing platform
+            $query = 'UPDATE plataformas SET nombre = ? WHERE id = ?';
+            $stmt = $db->prepare($query);
+            return $stmt->execute([$this->name, $this->id]);
+        }
+    }
+
+    public function delete()
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+
+        if ($this->id == null) {
+            return false;
+        }
+
+        $query = 'DELETE FROM plataformas WHERE id = ?';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$this->id]);
+
+        if ($result) {
+            $this->id = null;
+            $this->name = null;
+        }
+
+        $dbConn->closeConnection();
+        return $result;
+    }
+
+    public static function createPlatform($name)
+    {
+        $newPlatform = new Platform(null, $name);
+        return $newPlatform->save();
+    }
+
+    public static function updatePlatform($id, $name)
+    {
+        $platform = new Platform($id, $name);
+        return $platform->save();
+    }
+
+    public static function deleteById($id)
+    {
+        $platform = self::getById($id);
+        if ($platform) {
+            return $platform->delete();
+        }
+        return false;
+    }
+
+
 }
 ?>

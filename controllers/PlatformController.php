@@ -19,6 +19,13 @@ class PlatformController
         $platformToEdit = Platform::getById($id);
         require_once(__DIR__ . '/../views/platforms/edit-platforms.php');
     }
+    public function delete($id)
+    {
+        $platformToDelete = Platform::getById($id);
+        require_once(__DIR__ . '/../views/platforms/delete-platforms.php');
+    }
+
+    //actions
 
     public function store()
     {
@@ -73,6 +80,25 @@ class PlatformController
                 $_SESSION['success'] = 'Plataforma actualizada exitosamente';
             } else {
                 $_SESSION['error'] = 'No se ha actualizado correctamente';
+            }
+
+            header($urlBack);
+            exit;
+        } else {
+            header('Location: temporalRouter.php?entity=platforms');
+            exit;
+        }
+    }
+    public function destroy()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
+            $id = trim($_POST['id']);
+            $urlBack = 'Location: temporalRouter.php?entity=platforms';
+            //TODO: Update related series to set platform_id to null or a default value before deleting the platform
+            if (Platform::deleteById($id)) {
+                $_SESSION['success'] = 'Plataforma eliminada exitosamente';
+            } else {
+                $_SESSION['error'] = 'No se ha eliminado correctamente';
             }
 
             header($urlBack);

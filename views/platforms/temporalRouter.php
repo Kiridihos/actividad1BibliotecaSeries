@@ -17,13 +17,17 @@ switch ($action) {
         $platformController->edit($platformId);
         break;
     case 'delete':
-        $platformController->delete();
+        $platformId = $_GET['id'];
+        $platformController->delete($platformId);
         break;
     case 'store':
         $platformController->store();
         break;
     case 'update':
         $platformController->update();
+        break;
+    case 'destroy':
+        $platformController->destroy();
         break;
     default:
         $platformController->index();

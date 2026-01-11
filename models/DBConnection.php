@@ -9,7 +9,7 @@ class DBConnection
     private $db_port;
     private $connection = null;
 
-    public function __construct($host, $user, $pass, $name, $db_port)
+    public function __construct($host = 'localhost', $user = 'root', $pass = 'root', $name = 'series', $db_port = 3306)
     {
         $this->db_host = $host;
         $this->db_user = $user;

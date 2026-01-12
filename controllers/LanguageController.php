@@ -18,6 +18,11 @@ class LanguageController
         $languageToEdit = Language::getById($id);
         require_once(__DIR__ . '/../views/languages/edit-language.php');
     }
+    public function delete($id)
+    {
+        $languageToDelete = Language::getById($id);
+        require_once(__DIR__ . '/../views/languages/delete-language.php');
+    }
 
     //actions
     public function store()
@@ -77,6 +82,26 @@ class LanguageController
                 $_SESSION['success'] = 'Idioma actualizado exitosamente';
             } else {
                 $_SESSION['error'] = 'No se ha actualizado correctamente';
+            }
+
+            header($urlBack);
+            exit;
+        } else {
+            header('Location: temporalRouter.php?entity=languages');
+            exit;
+
+        }
+    }
+    public function destroy()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
+            $id = trim($_POST['id']);
+            $urlBack = 'Location: temporalRouter.php?entity=languages';
+            //TODO: Update related series to set platform_id to null or a default value before deleting the platform
+            if (Language::deleteById($id)) {
+                $_SESSION['success'] = 'Idioma eliminado exitosamente';
+            } else {
+                $_SESSION['error'] = 'No se ha eliminado correctamente';
             }
 
             header($urlBack);

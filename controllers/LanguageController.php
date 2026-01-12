@@ -13,10 +13,16 @@ class LanguageController
         require_once(__DIR__ . '/../views/languages/create-language.php');
     }
 
+    public function edit($id)
+    {
+        $languageToEdit = Language::getById($id);
+        require_once(__DIR__ . '/../views/languages/edit-language.php');
+    }
+
     //actions
     public function store()
     {
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name']) && isset($_POST['iso'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name']) && isset($_POST['iso'])) {
             $name = trim($_POST['name']);
             $iso = trim($_POST['iso']);
             $urlBack = 'Location: temporalRouter.php?entity=languages&action=create';
@@ -48,12 +54,45 @@ class LanguageController
 
         }
     }
+    public function update()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id']) && isset($_POST['name']) && isset($_POST['iso'])) {
+            $id = trim($_POST['id']);
+            $name = trim($_POST['name']);
+            $iso = trim($_POST['iso']);
+            $urlBack = 'Location: temporalRouter.php?entity=languages&action=edit&id=' . $id;
+
+            if (empty($name) || empty($iso)) {
+                $this->sendErrorAndRedirect('El nombre y el código ISO del idioma no pueden estar vacíos.', $urlBack);
+            }
+            $currentLanguage = Language::getById($id);
+            if ($this->validateLanguageName($name) && $currentLanguage->getName() !== $name) {
+                $this->sendErrorAndRedirect('El nombre del idioma ya existe.', $urlBack);
+            }
+            if ($this->validateLanguageISO($iso) && $currentLanguage->getIsoCode() !== $iso) {
+                $this->sendErrorAndRedirect('El código ISO del idioma ya existe.', $urlBack);
+            }
+
+            if (Language::updateLanguage($id, $name, $iso)) {
+                $_SESSION['success'] = 'Idioma actualizado exitosamente';
+            } else {
+                $_SESSION['error'] = 'No se ha actualizado correctamente';
+            }
+
+            header($urlBack);
+            exit;
+        } else {
+            header('Location: temporalRouter.php?entity=languages');
+            exit;
+
+        }
+    }
 
     private function validateLanguageName($name)
     {
         return Language::getByName($name) != null;
     }
-        private function validateLanguageISO($iso)
+    private function validateLanguageISO($iso)
     {
         return Language::getByIsoCode($iso) != null;
     }

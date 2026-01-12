@@ -16,6 +16,7 @@ require_once __DIR__ . '/../../templates/header.php';
                                 <label for="name" class="form-label">Nombre del Idioma</label>
                                 <input type="text" class="form-control mb-3" id="name" name="name" required autofocus
                                     placeholder="Ej: Español, Inglés, Francés">
+                                <label for="iso" class="form-label">Código ISO</label>
                                 <input type="text" class="form-control mb-3" id="iso" name="iso" required autofocus
                                     placeholder="Ej: ESP, ENG, FRA">
                             </div>

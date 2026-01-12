@@ -30,7 +30,7 @@
                     <a class="nav-item nav-link" href="../actors/list-actors.html">Actores</a>
                     <a class="nav-item nav-link" href="../directors/list-directors.html">Directores</a>
                     <a class="nav-item nav-link" href="../platforms/list-platforms.php">Plataformas</a>
-                    <a class="nav-item nav-link" href="../languages/list-languages.html">Idiomas</a>
+                    <a class="nav-item nav-link" href="../languages/list-languages.php">Idiomas</a>
                 </div>
             </div>
         </nav>

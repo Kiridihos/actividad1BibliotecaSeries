@@ -14,12 +14,12 @@ switch ($action) {
         break;
     case 'edit':
         
-        $platformId = $_GET['id'];
-        $serieController->edit($platformId);
+        $serieId = $_GET['id'];
+        $serieController->edit($serieId);
         break;
     case 'delete':
-        $platformId = $_GET['id'];
-        $serieController->delete($platformId);
+        $serieId = $_GET['id'];
+        $serieController->delete($serieId);
         break;
     case 'store':
         $serieController->store();

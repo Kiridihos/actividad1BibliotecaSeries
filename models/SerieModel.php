@@ -4,6 +4,7 @@ require_once('ActuationModel.php');
 require_once('SpeakModel.php');
 require_once('SubtitleModel.php');
 require_once('LanguageModel.php');
+require_once('PlatformModel.php');
 class Serie
 {
     private $id;
@@ -83,14 +84,20 @@ class Serie
     private static function getResultData($result)
     {
         if ($row = $result->fetch_assoc()) {
+            $serieId = $row['id'];
+            $actors = self::getActorsNames($serieId);
+            $audioLanguages = self::getAudioLanguagesNames($serieId);
+            $subtitleLanguages = self::getSubLanguagesNames($serieId);
+            $platform = Platform::getById($row['plataforma'])->getName();
+            $director = $row['director']; //TODO: get director name
             $serie = new Serie(
-                $row['id'],
-                $row['title'],
-                $row['platform'],
-                $row['director'],
-                $row['actors'],
-                $row['audio_languages'],
-                $row['subtitle_languages']
+                $serieId = $row['id'],
+                $row['titulo'],
+                $platform,
+                $director,
+                $actors,
+                $audioLanguages,
+                $subtitleLanguages
             );
         } else {
             $serie = null;
@@ -161,11 +168,13 @@ class Serie
             $actors = self::getActorsNames($serieId);
             $audioLanguages = self::getAudioLanguagesNames($serieId);
             $subtitleLanguages = self::getSubLanguagesNames($serieId);
+            $platform = Platform::getById($row['plataforma'])->getName();
+            $director = $row['director']; //TODO: get director name
             $serie = new Serie(
                 $serieId = $row['id'],
                 $row['titulo'],
-                $row['plataforma'],
-                $row['director'],
+                $platform,
+                $director,
                 $actors,
                 $audioLanguages,
                 $subtitleLanguages
@@ -214,6 +223,43 @@ class Serie
         }
     }
 
+    public function delete()
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+        if ($this->id == null) {
+            return false;
+        }
+        $query = 'DELETE FROM series WHERE id = ?';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$this->id]);
+        if ($result) {
+            $this->id = null;
+            $this->title = null;
+            $this->platform = null;
+            $this->director = null;
+            $this->actors = null;
+            $this->audioLanguages = null;
+            $this->subtitleLanguages = null;
+            $this->deleteRelatedData();
+        }
+        $dbConn->closeConnection();
+        return $result;
+    }
+    private function deleteRelatedData()
+    {
+        Actuation::deleteBySerieId($this->id);
+        Speak::deleteBySerieId($this->id);
+        Subtitle::deleteBySerieId($this->id);
+    }
+    public static function deleteById($id)
+    {
+        $serie = self::getById($id);
+        if ($serie) {
+            return $serie->delete();
+        }
+        return false;
+    }
 
 }
 ?>

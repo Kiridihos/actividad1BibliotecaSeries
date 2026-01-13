@@ -65,6 +65,11 @@ class Speak
         $query = 'DELETE FROM hablada WHERE id_serie = ? AND id_idioma = ?';
         $stmt = $db->prepare($query);
         $result = $stmt->execute([$this->serieId, $this->languageId]);
+        if ($result) {
+            $this->serieId = null;
+            $this->languageId = null;
+        }
+
         $dbConn->closeConnection();
         return $result;
     }
@@ -79,5 +84,25 @@ class Speak
         return $result;
     }
 
+    public static function deleteBySerieId($serieId)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+        $query = 'DELETE FROM hablada WHERE id_serie = ?';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$serieId]);
+        $dbConn->closeConnection();
+        return $result;
+    }
+    public static function deleteByLanguageId($languageId)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+        $query = 'DELETE FROM hablada WHERE id_idioma = ?';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$languageId]);
+        $dbConn->closeConnection();
+        return $result;
+    }
 }
 ?>

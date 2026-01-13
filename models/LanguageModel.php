@@ -1,6 +1,7 @@
 <?php
 require_once('DBConnection.php');
-
+require_once('SpeakModel.php');
+require_once('SubtitleModel.php');
 class Language
 {
     private $id;
@@ -129,9 +130,15 @@ class Language
             $this->id = null;
             $this->name = null;
             $this->isoCode = null;
+            $this->deleteRelatedData();
         }
         $dbConn->closeConnection();
         return $result;
+    }
+    public function deleteRelatedData()
+    {
+        Subtitle::deleteByLanguageId($this->id);
+        Speak::deleteByLanguageId($this->id);
     }
 
     public static function createLanguage($name, $isoCode)

@@ -60,16 +60,6 @@ class Actuation
         $dbConn->closeConnection();
         return $actuations;
     }
-    public function delete()
-    {
-        $dbConn = new DBConnection();
-        $db = $dbConn->getConnection();
-        $query = 'DELETE FROM actuan WHERE id_actor = ? AND id_serie = ?';
-        $stmt = $db->prepare($query);
-        $result = $stmt->execute([$this->actorId, $this->serieId]);
-        $dbConn->closeConnection();
-        return $result;
-    }
     public static function createActuation($actorId, $serieId)
     {
         $dbConn = new DBConnection();
@@ -81,7 +71,40 @@ class Actuation
         return $result;
     }
 
-
+    public function delete()
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+        $query = 'DELETE FROM actuan WHERE id_actor = ? AND id_serie = ?';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$this->actorId, $this->serieId]);
+        if($result){
+            $this->actorId = null;
+            $this->serieId = null;
+        }
+        $dbConn->closeConnection();
+        return $result;
+    }
+    public static function deleteBySerieId($serieId)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+        $query = 'DELETE FROM actuan WHERE id_serie = ?';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$serieId]);
+        $dbConn->closeConnection();
+        return $result;
+    }
+    public static function deleteByActorId($actorId)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+        $query = 'DELETE FROM actuan WHERE id_actor = ?';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$actorId]);
+        $dbConn->closeConnection();
+        return $result;
+    }
 
 }
 ?>

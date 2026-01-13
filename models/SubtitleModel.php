@@ -73,6 +73,11 @@ class Subtitle
         $query = 'DELETE FROM subtitulada WHERE id_serie = ? AND id_idioma = ?';
         $stmt = $db->prepare($query);
         $result = $stmt->execute([$this->serieId, $this->languageId]);
+        if ($result) {
+            $this->serieId = null;
+            $this->languageId = null;
+        }
+
         $dbConn->closeConnection();
         return $result;
     }
@@ -83,6 +88,26 @@ class Subtitle
         $query = 'INSERT INTO subtitulada (id_serie, id_idioma) VALUES (?, ?)';
         $stmt = $db->prepare($query);
         $result = $stmt->execute([$serieId, $languageId]);
+        $dbConn->closeConnection();
+        return $result;
+    }
+    public static function deleteBySerieId($serieId)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+        $query = 'DELETE FROM subtitulada WHERE id_serie = ?';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$serieId]);
+        $dbConn->closeConnection();
+        return $result;
+    }
+    public static function deleteByLanguageId($languageId)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+        $query = 'DELETE FROM subtitulada WHERE id_idioma = ?';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$languageId]);
         $dbConn->closeConnection();
         return $result;
     }

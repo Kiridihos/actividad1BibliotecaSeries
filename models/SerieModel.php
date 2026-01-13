@@ -81,6 +81,9 @@ class Serie
     {
         $this->subtitleLanguages = $subtitleLanguages;
     }
+    /**
+     * @return Serie|null
+     */
     private static function getResultData($result)
     {
         if ($row = $result->fetch_assoc()) {
@@ -184,6 +187,9 @@ class Serie
         $dbConn->closeConnection();
         return $series;
     }
+    /**
+     * @return Serie|null
+     */
     public static function getById($id)
     {
         $dbConn = new DBConnection();

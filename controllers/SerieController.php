@@ -7,10 +7,18 @@ class SerieController
         $series = Serie::getAll();
         require_once(__DIR__ . '/../views/series/list-series.php');
     }
+    public function create()
+    {
+        $platforms = Platform::getAll();
+        //$directors = Director::getAll();
+        //$actors = Actor::getAll();
+        $languages = Language::getAll();
+        require_once(__DIR__ . '/../views/series/create-series.php');
+    }
     public function delete($id)
     {
         $serieToDelete = Serie::getById($id);
-        require_once(__DIR__ . '/../views/series/delete-serie.php');
+        require_once(__DIR__ . '/../views/series/delete-series.php');
     }
     public function destroy()
     {

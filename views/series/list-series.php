@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../templates/header.php';
     <div class="container">
         <a href="?entity=series&action=create" class="btn btn-success mb-3 "><i class="bi bi-plus-circle"></i> Añadir
             Serie</a>
-        <?php if (!empty($languages)) {
+        <?php if (!empty($series)) {
             ?>
             <table class="table">
                 <thead>
@@ -28,9 +28,9 @@ require_once __DIR__ . '/../../templates/header.php';
                             <td><?php echo htmlspecialchars($serie->getTitle()); ?></td>
                             <td><?php echo htmlspecialchars($serie->getPlatform()); ?></td>
                             <td><?php echo htmlspecialchars($serie->getDirector()); ?></td>
-                            <td><?php echo htmlspecialchars($serie->getActors()); ?></td>
-                            <td><?php echo htmlspecialchars($serie->getAudioLanguages()); ?></td>
-                            <td><?php echo htmlspecialchars($serie->getSubtitleLanguages()); ?></td>
+                            <td><?php echo ($serie->getActors()); ?></td>
+                            <td><?php echo ($serie->getAudioLanguages()); ?></td>
+                            <td><?php echo ($serie->getSubtitleLanguages()); ?></td>
                             <td>
                                 <a href="?entity=series&action=edit&id=<?php echo htmlspecialchars($serie->getId()); ?>"
                                     class="btn btn-primary btn-sm">

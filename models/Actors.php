@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../config/DBConnection.php');
 class Actors
 {
     private $id;
@@ -56,25 +57,97 @@ class Actors
     {
         $this->nationality = $nationality;
     }
-
-    public function getAll()
+    public static function getAll()
     {
-        $mysqli = initConnectionDb();
-        $query = $mysqli->query("SELECT * FROM actores");
-        $listData = [];
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
 
-        foreach ($query as $row) {
-            $actor = new Actors(
-                $row['id'],
-                $row['name'],
-                $row['surname'],
-                $row['birthdate'],
-                $row['nationality'],
-            );
-            $listData[] = $actor;
+        $query = 'SELECT * FROM actores';
+
+        $result = $db->query($query);
+        $actors = [];
+
+        foreach ($result as $row) {
+            $actor = new Actors($row['id'], $row['nombres'], $row['apellidos'], $row['fecha_nacimiento'], $row['nacionalidad']);
+            $actors[] = $actor;
+        }
+        $dbConn->closeConnection();
+        return $actors;
+    }
+    public static function getById($id)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+
+        $query = "SELECT * FROM actores WHERE id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$id]);
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            $actor = new Actors($row['id'], $row['nombres'], $row['apellidos'], $row['fecha_nacimiento'], $row['nacionalidad']);
+        } else {
+            $actor = null;
         }
 
-        return $listData;
+        $dbConn->closeConnection();
+        return $actor;
+    }
+    public static function getByName($name)
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+
+        $query = "SELECT * FROM actores WHERE LOWER(nombres) = LOWER(?)";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$name]);
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            $actor = new Actors($row['id'], $row['nombres'], $row['apellidos'], $row['fecha_nacimiento'], $row['nacionalidad']);
+        } else {
+            $actor = null;
+        }
+
+        $dbConn->closeConnection();
+        return $actor;
+    }
+
+    // Guarda los actores en la base de datos
+    public function save()
+    {
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
+
+        if ($this->id) {
+            // Update existing actor
+            $query = "UPDATE actores SET nombres = ?, apellidos = ?, fecha_nacimiento = ?, nacionalidad = ? WHERE id = ?";
+            $stmt = $db->prepare($query);
+            $stmt->execute([$this->name, $this->surname, $this->birthdate, $this->nationality, $this->id]);
+        } else {
+            // Insert new actor
+            $query = "INSERT INTO actores (nombres, apellidos, fecha_nacimiento, nacionalidad) VALUES (?, ?, ?, ?)";
+            $stmt = $db->prepare($query);
+            $stmt->execute([$this->name, $this->surname, $this->birthdate, $this->nationality]);
+            $this->id = $db->insert_id;
+        }
+        $dbConn->closeConnection();
+    }
+    // Eliminar un actor de la base de datos
+    public function delete(){
+
+    }
+    // Crear un nuevo actor en la base de datos
+    public static function create(){
+
+    }
+    // Actualizar un actor existente en la base de datos
+    public static function update(){
+
+    }
+    // Eliminar un actor por su ID
+    public static function deleteById($id){
+
     }
 }
 ?>

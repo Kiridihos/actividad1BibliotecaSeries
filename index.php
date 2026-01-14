@@ -52,7 +52,37 @@ switch ($entity) {
         }
         break;
     case 'languages':
-        // Similar routing logic for languages can be added here
+        require_once(__DIR__ . '/controllers/LanguageController.php');
+        $contoller = new LanguageController();
+        // Enrutar segun la accion
+        switch ($action) {
+            case 'index':
+                $contoller->index();
+                break;
+            case 'create':
+                $contoller->create();
+                break;
+            case 'store':
+                $contoller->store();
+                break;
+            case 'edit':
+                $id = $_GET['id'];
+                $contoller->edit($id);
+                break;
+            case 'update':
+                $contoller->update();
+                break;
+            case 'delete':
+                $id = $_GET['id'];
+                $contoller->delete($id);
+                break;
+            case 'destroy':
+                $contoller->destroy();
+                break;
+            default:
+                $contoller->index();
+                break;
+        }
         break;
     case 'actors':
         require_once(__DIR__ . '/controllers/ActorController.php');

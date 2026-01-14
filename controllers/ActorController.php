@@ -7,7 +7,7 @@ class ActorController
     {
         $actors = Actors::getAll();
         require_once(__DIR__ . '/../views/actors/list-actors.php');
-    }
+    }   
     public function create()
     {
         require_once(__DIR__ . '/../views/actors/create-actors.php');

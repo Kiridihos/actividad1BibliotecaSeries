@@ -60,13 +60,13 @@ class DirectorController
                 header('Location: index.php?entity=directors&action=edit&id=' . $id);
                 exit;
             }
-            $director = Directors::getById($id);
-            if ($director != null) {
-                $director->setName(ucfirst($name));
-                $director->setSurname(ucfirst($surname));
-                $director->setBirthdate($birthdate);
-                $director->setNationality(ucfirst($nationality));
-                if ($director->save()) {
+            $directorToEdit = Directors::getById($id);
+            if ($directorToEdit != null) {
+                $directorToEdit->setName(ucfirst($name));
+                $directorToEdit->setSurname(ucfirst($surname));
+                $directorToEdit->setBirthdate($birthdate);
+                $directorToEdit->setNationality(ucfirst($nationality));
+                if ($directorToEdit->save()) {
                     $_SESSION['success'] = 'Director actualizado exitosamente';
                     header('Location: index.php?entity=directors');
                     exit;
@@ -92,8 +92,8 @@ class DirectorController
             exit;
         }
         $id = (int)$_GET['id'];
-        $director = Directors::getById($id);
-        if (!$director) {
+        $directorToDelete = Directors::getById($id);
+        if (!$directorToDelete) {
             $_SESSION['error'] = 'Director no encontrado.';
             header('Location: index.php?entity=directors');
             exit;

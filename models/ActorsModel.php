@@ -119,35 +119,64 @@ class Actors
         $dbConn = new DBConnection();
         $db = $dbConn->getConnection();
 
-        if ($this->id) {
-            // Update existing actor
-            $query = "UPDATE actores SET nombres = ?, apellidos = ?, fecha_nacimiento = ?, nacionalidad = ? WHERE id = ?";
-            $stmt = $db->prepare($query);
-            $stmt->execute([$this->name, $this->surname, $this->birthdate, $this->nationality, $this->id]);
-        } else {
-            // Insert new actor
+        if($this->id == null){
             $query = "INSERT INTO actores (nombres, apellidos, fecha_nacimiento, nacionalidad) VALUES (?, ?, ?, ?)";
             $stmt = $db->prepare($query);
             $stmt->execute([$this->name, $this->surname, $this->birthdate, $this->nationality]);
-            $this->id = $db->insert_id;
+            
+            if($stmt){
+                $this->id = $db->insert_id;
+                return true;
+            }
+            return false;
+        } else {
+            // Actualizar actor existente
+            $query = "UPDATE actores SET nombres = ?, apellidos = ?, fecha_nacimiento = ?, nacionalidad = ? WHERE id = ?";
+            $stmt = $db->prepare($query);
+            $stmt->execute([$this->name, $this->surname, $this->birthdate, $this->nationality, $this->id]);
+            return $stmt->affected_rows > 0;
+
         }
         $dbConn->closeConnection();
     }
     // Eliminar un actor de la base de datos
     public function delete(){
+        $dbConn = new DBConnection();
+        $db = $dbConn->getConnection();
 
+        if ($this->id == null) {
+            return false; // No se puede eliminar un actor sin ID
+        }
+        $query = "DELETE FROM actores WHERE id = ?";
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute([$this->id]);
+    
+        if ($result) {
+            $this->id = null; //limpiar el ID del objeto después de eliminarlo
+            $this->name = null;
+            $this->surname = null;
+            $this->birthdate = null;
+            $this->nationality = null;
+        }
+        $dbConn->closeConnection();
+        return $stmt->affected_rows > 0;
     }
     // Crear un nuevo actor en la base de datos
-    public static function create(){
-
+    public static function create($name, $surname, $birthdate, $nationality){
+        $actor = new Actors(null, $name, $surname, $birthdate, $nationality);
+        return $actor->save();
     }
     // Actualizar un actor existente en la base de datos
-    public static function update(){
-
+    public static function update($name, $surname, $birthdate, $nationality){
+        $actor = new Actors(null, $name, $surname, $birthdate, $nationality);
+        return $actor->save();
     }
     // Eliminar un actor por su ID
     public static function deleteById($id){
-
+        $actor = self::getById($id);
+        if ($actor != null) {
+            return $actor->delete();
+        }
+        return false; 
     }
 }
-?>

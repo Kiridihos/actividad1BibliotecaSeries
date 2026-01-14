@@ -21,8 +21,9 @@
 
     <section class="container centered-content">
         <nav class="navbar navbar-expand-lg navbar-light align-items-center mb-4">
-            <a class="navbar-brand" href="../../index.html">
-                <img src="../imgs/video-folder.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+            <a class="navbar-brand" href="../../index.php">
+                <img src="/../views/imgs/video-folder.png" alt="Logo" width="30" height="30"
+                    class="d-inline-block align-top">
                 Biblioteca de series</a>
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav mx-auto">

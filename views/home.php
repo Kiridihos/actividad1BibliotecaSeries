@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../templates/header.php';
+?>
 <section class="container centered-content">
     <div class="container">
         <h1 class="my-4 text-center">Biblioteca de series</h1>
@@ -15,7 +18,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="./views/actors/list-actors.php">
+                <a href="/../index.php?entity=actors&action=index">
                     <div class="card">
                         <img class="card-img-top" src="./views/imgs/actor.png" alt="Actores">
                         <div class="card-body">
@@ -27,7 +30,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="./views/directors/list-directors.html">
+                <a href="/../index.php?entity=directors&action=index">
                     <div class="card">
                         <img class="card-img-top" src="./views/imgs/director-chair.png" alt="Directores">
                         <div class="card-body">
@@ -67,5 +70,7 @@
             </div>
         </div>
     </div>
-
 </section>
+<?php
+require_once __DIR__ . '/../templates/footer.php';
+?>

@@ -89,7 +89,37 @@ switch ($entity) {
         break;
 
     case 'directors':
-        // Similar routing logic for directors can be added here
+        require_once(__DIR__ . '/controllers/DirectorController.php');
+        $contoller = new DirectorController();
+        // Enrutar segun la accion
+        switch ($action) {
+            case 'index':
+                $contoller->index();
+                break;
+            case 'create':
+                $contoller->create();
+                break;
+            case 'store':
+                $contoller->store();
+                break;
+            case 'edit':
+                $id = $_GET['id'];
+                $contoller->edit($id);
+                break;
+            case 'update':
+                $contoller->update();
+                break;
+            case 'delete':
+                $id = $_GET['id'];
+                $contoller->delete($id);
+                break;
+            case 'destroy':
+                $contoller->destroy();
+                break;
+            default:
+                $contoller->index();
+                break;
+        }
         break;
     case 'series':
         // Similar routing logic for series can be added here

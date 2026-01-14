@@ -60,13 +60,13 @@ class ActorController
                 header('Location: index.php?entity=actors&action=edit&id=' . $id);
                 exit;
             }
-            $actor = Actors::getById($id);
-            if ($actor != null) {
-                $actor->setName(ucfirst($name));
-                $actor->setSurname(ucfirst($surname));
-                $actor->setBirthdate($birthdate);
-                $actor->setNationality(ucfirst($nationality));
-                if ($actor->save()) {
+            $actorToEdit = Actors::getById($id);
+            if ($actorToEdit != null) {
+                $actorToEdit->setName(ucfirst($name));
+                $actorToEdit->setSurname(ucfirst($surname));
+                $actorToEdit->setBirthdate($birthdate);
+                $actorToEdit->setNationality(ucfirst($nationality));
+                if ($actorToEdit->save()) {
                     $_SESSION['success'] = 'Actor actualizado exitosamente';
                     header('Location: index.php?entity=actors');
                     exit;
@@ -92,9 +92,9 @@ class ActorController
             exit;
         }
         $id = (int)$_GET['id'];
-        $actor = Actors::getById($id);
+        $actorToDelete = Actors::getById($id);
 
-        if (!$actor) {
+        if (!$actorToDelete) {
             $_SESSION['error'] = 'Actor no encontrado.';
             header('Location: index.php?entity=actors');
             exit;

@@ -27,11 +27,11 @@
                 Biblioteca de series</a>
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav mx-auto">
-                    <a class="nav-item nav-link" href="../series/list-series.html">Series</a>
-                    <a class="nav-item nav-link" href="../actors/list-actors.html">Actores</a>
-                    <a class="nav-item nav-link" href="../directors/list-directors.html">Directores</a>
-                    <a class="nav-item nav-link" href="../platforms/list-platforms.php">Plataformas</a>
-                    <a class="nav-item nav-link" href="../languages/list-languages.php">Idiomas</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=series&action=index">Series</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=actors&action=index">Actores</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=directors&action=index">Directores</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=platforms&action=index">Plataformas</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=languages&action=index">Idiomas</a>
                 </div>
             </div>
         </nav>

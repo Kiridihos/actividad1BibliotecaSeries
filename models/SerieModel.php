@@ -5,6 +5,8 @@ require_once('SpeakModel.php');
 require_once('SubtitleModel.php');
 require_once('LanguageModel.php');
 require_once('PlatformModel.php');
+require_once('ActorsModel.php');
+require_once('DirectorsModel.php');
 class Serie
 {
     private $id;
@@ -87,24 +89,29 @@ class Serie
     private static function getResultData($result)
     {
         if ($row = $result->fetch_assoc()) {
-            $serieId = $row['id'];
-            $actors = self::getActorsNames($serieId);
-            $audioLanguages = self::getAudioLanguagesNames($serieId);
-            $subtitleLanguages = self::getSubLanguagesNames($serieId);
-            $platform = Platform::getById($row['plataforma'])->getName();
-            $director = $row['director']; //TODO: get director name
-            $serie = new Serie(
-                $serieId = $row['id'],
-                $row['titulo'],
-                $platform,
-                $director,
-                $actors,
-                $audioLanguages,
-                $subtitleLanguages
-            );
+            $serie = self::getSerieData($row);
         } else {
             $serie = null;
         }
+        return $serie;
+    }
+    private static function getSerieData($row)
+    {
+        $serieId = $row['id'];
+        $actors = self::getActorsNames($serieId);
+        $audioLanguages = self::getAudioLanguagesNames($serieId);
+        $subtitleLanguages = self::getSubLanguagesNames($serieId);
+        $platform = Platform::getById($row['plataforma'])->getName();
+        $director = Directors::getById($row['director'])->getName();
+        $serie = new Serie(
+            $serieId = $row['id'],
+            $row['titulo'],
+            $platform,
+            $director,
+            $actors,
+            $audioLanguages,
+            $subtitleLanguages
+        );
         return $serie;
     }
     private static function getResultLanguages($results)
@@ -167,21 +174,7 @@ class Serie
         $series = [];
 
         foreach ($result as $row) {
-            $serieId = $row['id'];
-            $actors = self::getActorsNames($serieId);
-            $audioLanguages = self::getAudioLanguagesNames($serieId);
-            $subtitleLanguages = self::getSubLanguagesNames($serieId);
-            $platform = Platform::getById($row['plataforma'])->getName();
-            $director = $row['director']; //TODO: get director name
-            $serie = new Serie(
-                $serieId = $row['id'],
-                $row['titulo'],
-                $platform,
-                $director,
-                $actors,
-                $audioLanguages,
-                $subtitleLanguages
-            );
+            $serie = self::getSerieData($row);
             $series[] = $serie;
         }
         $dbConn->closeConnection();

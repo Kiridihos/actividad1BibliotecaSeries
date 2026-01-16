@@ -130,8 +130,7 @@ class Serie
         $actorNames = [];
         foreach ($results as $actuation) {
             $actorId = $actuation->getActorId();
-            //TODO: $actorNames[] = Actor::getById($actorId)->getName();
-            $actorNames[] = $actorId; // Placeholder until Actor model is implemented
+            $actorNames[] = Actors::getById($actorId)->getName();
         }
         return $actorNames;
     }

@@ -1,5 +1,5 @@
 <?php
-require_once('DBConnection.php');
+require_once(__DIR__ . '/../config/DBConnection.php');
 require_once('ActuationModel.php');
 require_once('SpeakModel.php');
 require_once('SubtitleModel.php');

@@ -1,5 +1,5 @@
 <?php
-require_once('DBConnection.php');
+require_once(__DIR__ . '/../config/DBConnection.php');
 class Actuation
 {
     private $actorId;

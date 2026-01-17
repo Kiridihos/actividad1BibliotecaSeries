@@ -85,6 +85,10 @@ class SerieController
             if (empty($title)) {
                 $this->sendErrorAndRedirect('El nombre de la serie no puede estar vacío.', $urlBack);
             }
+            $currentSerie = Serie::getById($id);
+            if ($this->validateSerieTitle($title) && $title != $currentSerie->getTitle()) {
+                $this->sendErrorAndRedirect('El nombre de la serie ya existe.', $urlBack);
+            }
             if (Serie::updateSerie($id, $title, $platform, $director, $actors, $audioLanguages, $subtitleLanguages)) {
                 $_SESSION['success'] = 'Plataforma actualizada exitosamente';
             } else {
@@ -122,6 +126,10 @@ class SerieController
         $_SESSION['error'] = $message;
         header($urlBack);
         exit;
+    }
+        private function validateSerieTitle($name)
+    {
+        return Serie::getByTitle($name) != null;
     }
 }
 ?>

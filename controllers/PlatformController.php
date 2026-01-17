@@ -70,8 +70,8 @@ class PlatformController
             if (empty($name)) {
                 $this->sendErrorAndRedirect('El nombre de la plataforma no puede estar vacío.', $urlBack);
             }
-
-            if ($this->validatePlatformName($name)) {
+            $currentPlatform = Platform::getById($id);
+            if ($this->validatePlatformName($name) && $name != $currentPlatform->getName()) {
                 $this->sendErrorAndRedirect('El nombre de la plataforma ya existe.', $urlBack);
             }
 

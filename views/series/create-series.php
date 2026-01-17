@@ -48,7 +48,7 @@ require_once __DIR__ . '/../../templates/header.php';
                                 </select>
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="?entity=languages" class="btn btn-secondary">
+                                <a href="?entity=series" class="btn btn-secondary">
                                     <i class="bi bi-arrow-left"></i> Volver
                                 </a>
                                 <button type="submit" class="btn btn-primary">

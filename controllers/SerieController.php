@@ -25,7 +25,7 @@ class SerieController
 
         $serieActorsId = array_map(fn($actor) => $actor->getId(), $serieToEdit->getActors());
         $audioLanguagesId = array_map(fn($audio) => $audio->getId(), $serieToEdit->getAudioLanguages());
-        $subtitleLanguagesId = array_map(fn($subtitle) => $subtitle->getId(), $serieToEdit->getAudioLanguages());
+        $subtitleLanguagesId = array_map(fn($subtitle) => $subtitle->getId(), $serieToEdit->getSubtitleLanguages());
         require_once(__DIR__ . '/../views/series/edit-serie.php');
     }
     public function delete($id)

@@ -101,8 +101,8 @@ class Serie
         $actors = self::getActorsObj($serieId);
         $audioLanguages = self::getAudioLanguagesObj($serieId);
         $subtitleLanguages = self::getSubLanguagesObj($serieId);
-        $platform = Platform::getById($row['plataforma'])->getName();
-        $director = Directors::getById($row['director'])->getName();
+        $platform = Platform::getById($row['plataforma']);
+        $director = Directors::getById($row['director']);
         $serie = new Serie(
             $serieId = $row['id'],
             $row['titulo'],
@@ -246,7 +246,7 @@ class Serie
         }
 
         $compare = function ($a, $b) {
-            return $a->equals($b) ? 0 : 1;
+            return $a->equals($b) ? 0 : ($a->getActorId() <=> $b->getActorId());
         };
 
         $toDelete = array_udiff($existingActuations, $desiredActuations, $compare);
@@ -269,7 +269,9 @@ class Serie
                 $desiredAudio[] = new Speak($this->id, $language);
             }
         }
-        $compare = fn($a, $b) => $a->equals($b) ? 0 : 1;
+        $compare = function ($a, $b) {
+            return $a->equals($b) ? 0 : ($a->getLanguageId() <=> $b->getLanguageId());
+        };
         $toDelete = array_udiff($existingAudio, $desiredAudio, $compare);
         $toInsert = array_udiff($desiredAudio, $existingAudio, $compare);
 
@@ -282,17 +284,19 @@ class Serie
     }
     private function updateSubtitleRelations()
     {
-        $existingAudio = Subtitle::getBySerieId($this->id);
+        $existingSubtitles = Subtitle::getBySerieId($this->id);
 
-        $desiredAudio = [];
-        if (is_array($this->audioLanguages)) {
-            foreach ($this->audioLanguages as $language) {
-                $desiredAudio[] = new Subtitle($this->id, $language);
+        $desiredSubtitles = [];
+        if (is_array($this->subtitleLanguages)) {
+            foreach ($this->subtitleLanguages as $language) {
+                $desiredSubtitles[] = new Subtitle($this->id, $language);
             }
         }
-        $compare = fn($a, $b) => $a->equals($b) ? 0 : 1;
-        $toDelete = array_udiff($existingAudio, $desiredAudio, $compare);
-        $toInsert = array_udiff($desiredAudio, $existingAudio, $compare);
+        $compare = function ($a, $b) {
+            return $a->equals($b) ? 0 : ($a->getLanguageId() <=> $b->getLanguageId());
+        };
+        $toDelete = array_udiff($existingSubtitles, $desiredSubtitles, $compare);
+        $toInsert = array_udiff($desiredSubtitles, $existingSubtitles, $compare);
 
         foreach ($toDelete as $language) {
             $language->delete();
@@ -370,6 +374,12 @@ class Serie
             return $serie->delete();
         }
         return false;
+    }
+
+    public static function updateSerie($id, $tile, $platform, $director, $actors, $audioLanguages, $subtitleLanguages)
+    {
+        $serie = new Serie($id, $tile, $platform, $director, $actors, $audioLanguages, $subtitleLanguages);
+        return $serie->save();
     }
 
 }

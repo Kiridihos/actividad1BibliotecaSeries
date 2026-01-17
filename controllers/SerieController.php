@@ -22,9 +22,10 @@ class SerieController
         $directors = Directors::getAll();
         $actors = Actors::getAll();
         $languages = Language::getAll();
-        $selectedActorIds = array_map(fn($a) => $a->getActorId(), Actuation::getBySerieId($id));
-        $selectedAudioIds = array_map(fn($s) => $s->getLanguageId(), Speak::getBySerieId($id));
-        $selectedSubtitleIds = array_map(fn($s) => $s->getLanguageId(), Subtitle::getBySerieId($id));
+
+        $serieActorsId = array_map(fn($actor) => $actor->getId(), $serieToEdit->getActors());
+        $audioLanguagesId = array_map(fn($audio) => $audio->getId(), $serieToEdit->getAudioLanguages());
+        $subtitleLanguagesId = array_map(fn($subtitle) => $subtitle->getId(), $serieToEdit->getAudioLanguages());
         require_once(__DIR__ . '/../views/series/edit-serie.php');
     }
     public function delete($id)
@@ -70,6 +71,31 @@ class SerieController
     }
     public function update()
     {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'], $_POST['platform'], $_POST['director'], $_POST['actors'], $_POST['audioLanguages'], $_POST['subtitleLanguages'])) {
+            $id = trim($_POST['id']);
+            $title = trim($_POST['name']);
+            $platform = trim($_POST['platform']);
+            $director = trim($_POST['director']);
+            $actors = $_POST['actors'];
+            $audioLanguages = $_POST['audioLanguages'];
+            $subtitleLanguages = $_POST['subtitleLanguages'];
+
+            $urlBack = 'Location: index.php?entity=series&action=edit&id=' . $id;
+
+            if (empty($title)) {
+                $this->sendErrorAndRedirect('El nombre de la serie no puede estar vacío.', $urlBack);
+            }
+            if (Serie::updateSerie($id, $title, $platform, $director, $actors, $audioLanguages, $subtitleLanguages)) {
+                $_SESSION['success'] = 'Plataforma actualizada exitosamente';
+            } else {
+                $_SESSION['error'] = 'No se ha actualizado correctamente';
+            }
+            header($urlBack);
+            exit;
+        } else {
+            header('Location: index.php?entity=series');
+            exit;
+        }
 
     }
     public function destroy()

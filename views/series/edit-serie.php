@@ -21,7 +21,8 @@ require_once __DIR__ . '/../../templates/header.php';
                                 <label for="platform" class="form-label">Plataforma</label>
                                 <select class="form-select" required name="platform">
                                     <?php foreach ($platforms as $platform) { ?>
-                                        <option value="<?php echo htmlspecialchars($platform->getId()); ?>">
+                                        <option value="<?php echo htmlspecialchars($platform->getId()); ?>"
+                                        <?php echo $platform->getId() == $serieToEdit->getPlatform()->getId() ? 'selected' : ''; ?>>
                                             <?php echo htmlspecialchars($platform->getName()); ?>
                                         </option>
                                     <?php } ?>
@@ -29,7 +30,8 @@ require_once __DIR__ . '/../../templates/header.php';
                                 <label for="director" class="form-label">Director</label>
                                 <select class="form-select" required name="director">
                                     <?php foreach ($directors as $director) { ?>
-                                        <option value="<?php echo htmlspecialchars($director->getId()); ?>">
+                                        <option value="<?php echo htmlspecialchars($director->getId()); ?>"
+                                        <?php echo $director->getId() == $serieToEdit->getDirector()->getId() ? 'selected' : ''; ?>>
                                             <?php echo htmlspecialchars($director->getName()); ?></option>
                                     <?php } ?>
                                 </select>
@@ -37,27 +39,23 @@ require_once __DIR__ . '/../../templates/header.php';
                                 <select class="form-select" required name="actors[]" multiple>
                                     <?php foreach ($actors as $actor) { ?>
                                         <option value="<?php echo htmlspecialchars($actor->getId()); ?>" 
-                                        selected="<?php in_array($actor, $serieToEdit->getActors())?>">
-                                        <option value="<?php echo htmlspecialchars($actor->getId()); ?>"
-                                            <?php echo in_array($actor->getId(), $selectedActorIds) ? 'selected' : ''; ?>>
+                                            <?php echo in_array($actor->getId(), $serieActorsId) ? 'selected' : ''; ?>>
                                             <?php echo htmlspecialchars($actor->getName()); ?></option>
                                     <?php } ?>
                                 </select>
                                 <label for="audioLanguages" class="form-label">Idiomas de Audio</label>
                                 <select class="form-select" required name="audioLanguages[]" multiple>
                                     <?php foreach ($languages as $language) { ?>
-                                        <option value="<?php echo htmlspecialchars($language->getId()); ?>">
                                         <option value="<?php echo htmlspecialchars($language->getId()); ?>"
-                                            <?php echo in_array($language->getId(), $selectedAudioIds) ? 'selected' : ''; ?>>
+                                        <?php echo in_array($language->getId(), $audioLanguagesId) ? 'selected' : ''; ?>>
                                             <?php echo htmlspecialchars($language->getName()); ?></option>
                                     <?php } ?>
                                 </select>
                                 <label for="subtitleLanguages" class="form-label">Idiomas de Subtitulado</label>
                                 <select class="form-select" required name="subtitleLanguages[]" multiple>
                                     <?php foreach ($languages as $language) { ?>
-                                        <option value="<?php echo htmlspecialchars($language->getId()); ?>">
                                         <option value="<?php echo htmlspecialchars($language->getId()); ?>"
-                                            <?php echo in_array($language->getId(), $selectedSubtitleIds) ? 'selected' : ''; ?>>
+                                        <?php echo in_array($language->getId(), $subtitleLanguagesId) ? 'selected' : ''; ?>>
                                             <?php echo htmlspecialchars($language->getName()); ?></option>
                                     <?php } ?>
                                 </select>

@@ -26,8 +26,8 @@ require_once __DIR__ . '/../../templates/header.php';
                         <tr>
                             <th scope="row"><?php echo htmlspecialchars($serie->getId()); ?></th>
                             <td><?php echo htmlspecialchars($serie->getTitle()); ?></td>
-                            <td><?php echo htmlspecialchars($serie->getPlatform()); ?></td>
-                            <td><?php echo htmlspecialchars($serie->getDirector()); ?></td>
+                            <td><?php echo htmlspecialchars($serie->getPlatform()->getName()); ?></td>
+                            <td><?php echo htmlspecialchars($serie->getDirector()->getName()); ?></td>
                             <td><?php echo ($serie->getActorsNames()); ?></td>
                             <td><?php echo ($serie->getAudioLanguageNames()); ?></td>
                             <td><?php echo ($serie->getSutitleLanguageNames()); ?></td>

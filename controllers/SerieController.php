@@ -15,6 +15,18 @@ class SerieController
         $languages = Language::getAll();
         require_once(__DIR__ . '/../views/series/create-series.php');
     }
+    public function edit($id)
+    {
+        $serieToEdit = Serie::getById($id);
+        $platforms = Platform::getAll();
+        $directors = Directors::getAll();
+        $actors = Actors::getAll();
+        $languages = Language::getAll();
+        $selectedActorIds = array_map(fn($a) => $a->getActorId(), Actuation::getBySerieId($id));
+        $selectedAudioIds = array_map(fn($s) => $s->getLanguageId(), Speak::getBySerieId($id));
+        $selectedSubtitleIds = array_map(fn($s) => $s->getLanguageId(), Subtitle::getBySerieId($id));
+        require_once(__DIR__ . '/../views/series/edit-serie.php');
+    }
     public function delete($id)
     {
         $serieToDelete = Serie::getById($id);
@@ -31,7 +43,7 @@ class SerieController
             $subtitleLanguages = $_POST['subtitleLanguages'];
 
             $urlBack = 'Location: index.php?entity=series&action=create';
-            
+
             if (empty($title)) {
                 $this->sendErrorAndRedirect('El nombre de la serie no puede estar vacío.', $urlBack);
             }
@@ -46,7 +58,7 @@ class SerieController
             } else {
                 $_SESSION['error'] = 'No se ha guardado correctamente';
             }
-            
+
             header($urlBack);
             exit;
         } else {
@@ -55,6 +67,10 @@ class SerieController
             exit;
 
         }
+    }
+    public function update()
+    {
+
     }
     public function destroy()
     {

@@ -98,9 +98,9 @@ class Serie
     private static function getSerieData($row)
     {
         $serieId = $row['id'];
-        $actors = self::getActorsNames($serieId);
-        $audioLanguages = self::getAudioLanguagesNames($serieId);
-        $subtitleLanguages = self::getSubLanguagesNames($serieId);
+        $actors = self::getActorsObj($serieId);
+        $audioLanguages = self::getAudioLanguagesObj($serieId);
+        $subtitleLanguages = self::getSubLanguagesObj($serieId);
         $platform = Platform::getById($row['plataforma'])->getName();
         $director = Directors::getById($row['director'])->getName();
         $serie = new Serie(
@@ -117,48 +117,56 @@ class Serie
     private static function getResultLanguages($results)
     {
 
-        $languageNames = [];
+        $languageArray = [];
         foreach ($results as $language) {
             $languageId = $language->getLanguageId();
-            $languageNames[] = Language::getById($languageId)->getName();
+            $languageArray[] = Language::getById($languageId);
         }
-        return $languageNames;
+        return $languageArray;
     }
     private static function getResultActors($results)
     {
 
-        $actorNames = [];
+        $actorArray = [];
         foreach ($results as $actuation) {
             $actorId = $actuation->getActorId();
-            $actorNames[] = Actors::getById($actorId)->getName();
+            $actorArray[] = Actors::getById($actorId);
         }
-        return $actorNames;
+        return $actorArray;
     }
 
-    private static function getAudioLanguagesNames($serieId)
+    private static function getAudioLanguagesObj($serieId)
     {
         $audioLanguages = Speak::getBySerieId($serieId);
-        return self::languageArrayToString($audioLanguages);
+        return self::getResultLanguages($audioLanguages);
     }
-    private static function getSubLanguagesNames($serieId)
+    private static function getSubLanguagesObj($serieId)
     {
         $subtitleLanguages = Subtitle::getBySerieId($serieId);
-        return self::languageArrayToString($subtitleLanguages);
+        return self::getResultLanguages($subtitleLanguages);
     }
-    private static function getActorsNames($serieId)
+    private static function getActorsObj($serieId)
     {
         $actors = Actuation::getBySerieId($serieId);
-        return self::actorArrayToString($actors);
+        return self::getResultActors($actors);
     }
 
-    private static function languageArrayToString($results)
+    public function getAudioLanguageNames()
     {
-        $languages = Serie::getResultLanguages($results);
+        $name = fn($a) => $a->getName();
+        $languages = array_map($name, $this->audioLanguages);
         return implode(', ', $languages);
     }
-    private static function actorArrayToString($results)
+    public function getSutitleLanguageNames()
     {
-        $actors = Serie::getResultActors($results);
+        $name = fn($a) => $a->getName();
+        $languages = array_map($name, $this->subtitleLanguages);
+        return implode(', ', $languages);
+    }
+    public function getActorsNames()
+    {
+        $name = fn($a) => $a->getName();
+        $actors = array_map($name, $this->actors);
         return implode(', ', $actors);
     }
 

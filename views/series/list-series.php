@@ -28,9 +28,9 @@ require_once __DIR__ . '/../../templates/header.php';
                             <td><?php echo htmlspecialchars($serie->getTitle()); ?></td>
                             <td><?php echo htmlspecialchars($serie->getPlatform()); ?></td>
                             <td><?php echo htmlspecialchars($serie->getDirector()); ?></td>
-                            <td><?php echo ($serie->getActors()); ?></td>
-                            <td><?php echo ($serie->getAudioLanguages()); ?></td>
-                            <td><?php echo ($serie->getSubtitleLanguages()); ?></td>
+                            <td><?php echo ($serie->getActorsNames()); ?></td>
+                            <td><?php echo ($serie->getAudioLanguageNames()); ?></td>
+                            <td><?php echo ($serie->getSutitleLanguageNames()); ?></td>
                             <td>
                                 <a href="?entity=series&action=edit&id=<?php echo htmlspecialchars($serie->getId()); ?>"
                                     class="btn btn-primary btn-sm">

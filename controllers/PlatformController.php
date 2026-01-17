@@ -31,7 +31,7 @@ class PlatformController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'])) {
             $name = trim($_POST['name']);
-            $urlBack = 'Location: temporalRouter.php?entity=platform&action=create';
+            $urlBack = 'Location: index.php?entity=platforms&action=create';
 
             if (empty($name)) {
                 $this->sendErrorAndRedirect('El nombre de la plataforma no puede estar vacío.', $urlBack);
@@ -53,7 +53,7 @@ class PlatformController
             exit;
         } else {
 
-            header('Location: temporalRouter.php?entity=platforms');
+            header('Location: index.php?entity=platforms');
             exit;
 
         }
@@ -64,7 +64,7 @@ class PlatformController
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id']) && isset($_POST['name'])) {
             $id = trim($_POST['id']);
             $name = trim($_POST['name']);
-            $urlBack = 'Location: temporalRouter.php?entity=platforms&action=edit&id=' . $id;
+            $urlBack = 'Location: index.php?entity=platforms&action=edit&id=' . $id;
 
 
             if (empty($name)) {
@@ -85,7 +85,7 @@ class PlatformController
             header($urlBack);
             exit;
         } else {
-            header('Location: temporalRouter.php?entity=platforms');
+            header('Location: index.php?entity=platforms');
             exit;
         }
     }
@@ -93,8 +93,7 @@ class PlatformController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             $id = trim($_POST['id']);
-            $urlBack = 'Location: temporalRouter.php?entity=platforms';
-            //TODO: Update related series to set platform_id to null or a default value before deleting the platform
+            $urlBack = 'Location: index.php?entity=platforms';
             if (Platform::deleteById($id)) {
                 $_SESSION['success'] = 'Plataforma eliminada exitosamente';
             } else {
@@ -104,7 +103,7 @@ class PlatformController
             header($urlBack);
             exit;
         } else {
-            header('Location: temporalRouter.php?entity=platforms');
+            header('Location: index.php?entity=platforms');
             exit;
         }
     }

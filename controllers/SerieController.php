@@ -102,7 +102,7 @@ class SerieController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             $id = trim($_POST['id']);
-            $urlBack = 'Location: temporalRouter.php?entity=series';
+            $urlBack = 'Location: index.php?entity=series';
             if (Serie::deleteById($id)) {
                 $_SESSION['success'] = 'Serie eliminada exitosamente';
             } else {
@@ -112,7 +112,7 @@ class SerieController
             header($urlBack);
             exit;
         } else {
-            header('Location: temporalRouter.php?entity=series');
+            header('Location: index.php?entity=series');
             exit;
 
         }

@@ -104,5 +104,12 @@ class Speak
         $dbConn->closeConnection();
         return $result;
     }
+    public function equals($other)
+    {
+        if ($other instanceof self) {
+            return $this->languageId == $other->languageId && $this->serieId == $other->serieId;
+        }
+        return false;
+    }
 }
 ?>

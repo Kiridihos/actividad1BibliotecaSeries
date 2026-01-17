@@ -22,29 +22,26 @@ require_once __DIR__ . '/../../templates/header.php';
                                     <option value="<?php echo htmlspecialchars($platform->getId()); ?>"><?php echo htmlspecialchars($platform->getName()); ?></option>
                                     <?php } ?>
                                 </select>
-                                <!--TODO: implementar director y actores-->
-                                <!--
                                 <label for="director" class="form-label">Director</label>
                                 <select class="form-select" required name="director">
-                                    <?php //foreach ($directors as $director) { ?>
-                                    <option value="<?php //echo htmlspecialchars($director->getId()); ?>"><?php //echo htmlspecialchars($director->getName()); ?></option>
-                                    <?php //} ?>
-                                </select>-->
-                                <!--
+                                    <?php foreach ($directors as $director) { ?>
+                                    <option value="<?php echo htmlspecialchars($director->getId()); ?>"><?php echo htmlspecialchars($director->getName()); ?></option>
+                                    <?php } ?>
+                                </select>
                                 <label for="actors" class="form-label">Actores</label>
-                                <select class="form-select" required name="actors" multiple>
-                                    <?php //foreach ($actors as $actor) { ?>
-                                    <option value="<?php //echo htmlspecialchars($actor->getId()); ?>"><?php //echo htmlspecialchars($actor->getName()); ?></option>
-                                    <?php //} ?>
-                                </select>-->
+                                <select class="form-select" required name="actors[]" multiple>
+                                    <?php foreach ($actors as $actor) { ?>
+                                    <option value="<?php echo htmlspecialchars($actor->getId()); ?>"><?php echo htmlspecialchars($actor->getName()); ?></option>
+                                    <?php } ?>
+                                </select>
                                 <label for="audioLanguages" class="form-label">Idiomas de Audio</label>
-                                <select class="form-select" required name="audioLanguages" multiple>
+                                <select class="form-select" required name="audioLanguages[]" multiple>
                                     <?php foreach ($languages as $language) { ?>
                                     <option value="<?php echo htmlspecialchars($language->getId()); ?>"><?php echo htmlspecialchars($language->getName()); ?></option>
                                     <?php } ?>
                                 </select>
                                 <label for="subtitleLanguages" class="form-label">Idiomas de Subtitulado</label>
-                                <select class="form-select" required name="subtitleLanguages" multiple>
+                                <select class="form-select" required name="subtitleLanguages[]" multiple>
                                     <?php foreach ($languages as $language) { ?>
                                     <option value="<?php echo htmlspecialchars($language->getId()); ?>"><?php echo htmlspecialchars($language->getName()); ?></option>
                                     <?php } ?>

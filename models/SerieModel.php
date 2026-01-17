@@ -200,7 +200,7 @@ class Serie
         $dbConn = new DBConnection();
         $db = $dbConn->getConnection();
 
-        $query = "SELECT * FROM series WHERE title = ?";
+        $query = "SELECT * FROM series WHERE titulo = ?";
         $stmt = $db->prepare($query);
         $stmt->execute([$title]);
         $result = $stmt->get_result();
@@ -208,16 +208,121 @@ class Serie
         $dbConn->closeConnection();
         return $serie;
     }
+    private function creteAudiolanguagesRelations()
+    {
+        foreach ($this->audioLanguages as $languageId) {
+            Speak::createSpeak($this->id, $languageId);
+        }
+    }
+    private function createSubtitlelanguagesRelations()
+    {
+        foreach ($this->subtitleLanguages as $languageId) {
+            Subtitle::createSubtitle($this->id, $languageId);
+        }
+    }
+    private function createActuationRelations()
+    {
+        foreach ($this->actors as $actorId) {
+            Actuation::createActuation($actorId, $this->id);
+        }
+    }
+    private function updateActuationRelations()
+    {
+        $existingActuations = Actuation::getBySerieId($this->id);
+
+        $desiredActuations = [];
+        if (is_array($this->actors)) {
+            foreach ($this->actors as $actorId) {
+                $desiredActuations[] = new Actuation($actorId, $this->id);
+            }
+        }
+
+        $compare = function ($a, $b) {
+            return $a->equals($b) ? 0 : 1;
+        };
+
+        $toDelete = array_udiff($existingActuations, $desiredActuations, $compare);
+        $toInsert = array_udiff($desiredActuations, $existingActuations, $compare);
+
+        foreach ($toDelete as $actuation) {
+            $actuation->delete();
+        }
+        foreach ($toInsert as $actuation) {
+            Actuation::createActuation($actuation->getActorId(), $actuation->getSerieId());
+        }
+    }
+    private function updateAudioRelations()
+    {
+        $existingAudio = Speak::getBySerieId($this->id);
+
+        $desiredAudio = [];
+        if (is_array($this->audioLanguages)) {
+            foreach ($this->audioLanguages as $language) {
+                $desiredAudio[] = new Speak($this->id, $language);
+            }
+        }
+        $compare = fn($a, $b) => $a->equals($b) ? 0 : 1;
+        $toDelete = array_udiff($existingAudio, $desiredAudio, $compare);
+        $toInsert = array_udiff($desiredAudio, $existingAudio, $compare);
+
+        foreach ($toDelete as $language) {
+            $language->delete();
+        }
+        foreach ($toInsert as $language) {
+            Speak::createSpeak($language->getSerieId(), $language->getLanguageId());
+        }
+    }
+    private function updateSubtitleRelations()
+    {
+        $existingAudio = Subtitle::getBySerieId($this->id);
+
+        $desiredAudio = [];
+        if (is_array($this->audioLanguages)) {
+            foreach ($this->audioLanguages as $language) {
+                $desiredAudio[] = new Subtitle($this->id, $language);
+            }
+        }
+        $compare = fn($a, $b) => $a->equals($b) ? 0 : 1;
+        $toDelete = array_udiff($existingAudio, $desiredAudio, $compare);
+        $toInsert = array_udiff($desiredAudio, $existingAudio, $compare);
+
+        foreach ($toDelete as $language) {
+            $language->delete();
+        }
+        foreach ($toInsert as $language) {
+            Subtitle::createSubtitle($language->getSerieId(), $language->getLanguageId());
+        }
+    }
+
+
 
     public function save()
     {
         $dbConn = new DBConnection();
         $db = $dbConn->getConnection();
-        if ($this->id) {
-            $query = "UPDATE series SET title = ?, platform = ?, director = ?, actors = ?, audio_languages = ?, subtitle_languages = ? WHERE id = ?";
+        if ($this->id == null) {
+            // create new platform
+            $query = "INSERT INTO series (titulo, plataforma, director) VALUES (?, ?, ?)";
             $stmt = $db->prepare($query);
-            $result = $stmt->execute([$this->title, $this->platform, $this->director, $this->actors, $this->audioLanguages, $this->subtitleLanguages, $this->id]);
+            $result = $stmt->execute([$this->title, $this->platform, $this->director]);
+            if ($result) {
+                $this->id = $db->insert_id;
+                $this->creteAudiolanguagesRelations();
+                $this->createSubtitlelanguagesRelations();
+                $this->createActuationRelations();
+                return true;
+            }
 
+        } else {
+            $query = "UPDATE series SET titulo = ?, plataforma = ?, director = ? WHERE id = ?";
+            $stmt = $db->prepare($query);
+            $result = $stmt->execute([$this->title, $this->platform, $this->director, $this->id]);
+            if ($result) {
+                $this->updateActuationRelations();
+                $this->updateAudioRelations();
+                $this->updateSubtitleRelations();
+            }
+            return $result;
         }
     }
 

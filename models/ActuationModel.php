@@ -28,6 +28,14 @@ class Actuation
         $this->serieId = $serieId;
     }
 
+    public function equals($other)
+    {
+        if ($other instanceof self) {
+            return $this->actorId == $other->actorId && $this->serieId == $other->serieId;
+        }
+        return false;
+    }
+
         public static function getBySerieId($serieId)
     {
         $dbConn = new DBConnection();

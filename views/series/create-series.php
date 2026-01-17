@@ -25,13 +25,13 @@ require_once __DIR__ . '/../../templates/header.php';
                                 <label for="director" class="form-label">Director</label>
                                 <select class="form-select" required name="director">
                                     <?php foreach ($directors as $director) { ?>
-                                    <option value="<?php echo htmlspecialchars($director->getId()); ?>"><?php echo htmlspecialchars($director->getName()); ?></option>
+                                    <option value="<?php echo htmlspecialchars($director->getId()); ?>"><?php echo htmlspecialchars($director->getName()). " ".htmlspecialchars($director->getSurname()); ?></option>
                                     <?php } ?>
                                 </select>
                                 <label for="actors" class="form-label">Actores</label>
                                 <select class="form-select" required name="actors[]" multiple>
                                     <?php foreach ($actors as $actor) { ?>
-                                    <option value="<?php echo htmlspecialchars($actor->getId()); ?>"><?php echo htmlspecialchars($actor->getName()); ?></option>
+                                    <option value="<?php echo htmlspecialchars($actor->getId()); ?>"><?php echo htmlspecialchars($actor->getName()). " ".htmlspecialchars($actor->getSurname()); ?></option>
                                     <?php } ?>
                                 </select>
                                 <label for="audioLanguages" class="form-label">Idiomas de Audio</label>

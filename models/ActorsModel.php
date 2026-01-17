@@ -179,4 +179,11 @@ class Actors
         }
         return false; 
     }
+    public function equals($other)
+    {
+        if ($other instanceof self) {
+            return $this->id == $other->id;
+        }
+        return false;
+    }
 }

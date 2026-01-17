@@ -5,7 +5,7 @@ require_once __DIR__ . '/../templates/header.php';
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-4">
-                <a href="./views/series/list-series.html">
+                <a href="/../index.php?entity=series&action=index">
                     <div class="card">
                         <img class="card-img-top" src="./views/imgs/video-player.png" alt="Series">
                         <div class="card-body">

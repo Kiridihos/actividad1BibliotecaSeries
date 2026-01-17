@@ -30,7 +30,7 @@ class LanguageController
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name']) && isset($_POST['iso'])) {
             $name = trim($_POST['name']);
             $iso = trim($_POST['iso']);
-            $urlBack = 'Location: temporalRouter.php?entity=languages&action=create';
+            $urlBack = 'Location: index.php?entity=languages&action=create';
 
             if (empty($name) || empty($iso)) {
                 $this->sendErrorAndRedirect('El nombre y el código ISO del idioma no pueden estar vacíos.', $urlBack);
@@ -54,7 +54,7 @@ class LanguageController
             exit;
         } else {
 
-            header('Location: temporalRouter.php?entity=languages');
+            header('Location: index.php?entity=languages');
             exit;
 
         }
@@ -65,7 +65,7 @@ class LanguageController
             $id = trim($_POST['id']);
             $name = trim($_POST['name']);
             $iso = trim($_POST['iso']);
-            $urlBack = 'Location: temporalRouter.php?entity=languages&action=edit&id=' . $id;
+            $urlBack = 'Location: index.php?entity=languages&action=edit&id=' . $id;
 
             if (empty($name) || empty($iso)) {
                 $this->sendErrorAndRedirect('El nombre y el código ISO del idioma no pueden estar vacíos.', $urlBack);
@@ -87,7 +87,7 @@ class LanguageController
             header($urlBack);
             exit;
         } else {
-            header('Location: temporalRouter.php?entity=languages');
+            header('Location: index.php?entity=languages');
             exit;
 
         }
@@ -96,8 +96,7 @@ class LanguageController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             $id = trim($_POST['id']);
-            $urlBack = 'Location: temporalRouter.php?entity=languages';
-            //TODO: Update related series to set platform_id to null or a default value before deleting the platform
+            $urlBack = 'Location: index.php?entity=languages';
             if (Language::deleteById($id)) {
                 $_SESSION['success'] = 'Idioma eliminado exitosamente';
             } else {
@@ -107,7 +106,7 @@ class LanguageController
             header($urlBack);
             exit;
         } else {
-            header('Location: temporalRouter.php?entity=languages');
+            header('Location: index.php?entity=languages');
             exit;
 
         }

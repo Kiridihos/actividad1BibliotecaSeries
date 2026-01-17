@@ -17,7 +17,7 @@ require_once __DIR__ . '/../../templates/header.php';
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
-                        <th scope="col" class="w-50">Nombres</th>
+                        <th scope="col">Nombres</th>
                         <th scope="col">Apellidos</th>
                         <th scope="col">Fecha de nacimiento</th>
                         <th scope="col">Nacionalidad</th>
@@ -30,7 +30,7 @@ require_once __DIR__ . '/../../templates/header.php';
                             <th scope="row"><?php echo htmlspecialchars($actor->getId()); ?></th>
                             <td><?php echo htmlspecialchars($actor->getName()); ?></td>
                             <td><?php echo htmlspecialchars($actor->getSurname()); ?></td>
-                            <td><?php echo htmlspecialchars($actor->getBirthdate()); ?></td>
+                            <td><?php echo htmlspecialchars(date('d/m/Y', strtotime($actor->getBirthdate()))); ?></td>
                             <td><?php echo htmlspecialchars($actor->getNationality()); ?></td>
                             <td>
                                 <a href="?entity=actors&action=edit&id=<?php echo $actor->getId(); ?>"

@@ -165,7 +165,7 @@ class Serie
     }
     public function getActorsNames()
     {
-        $name = fn($a) => $a->getName();
+        $name = fn($a) => $a->getName() . ' ' . $a->getSurname();
         $actors = array_map($name, $this->actors);
         return implode(', ', $actors);
     }

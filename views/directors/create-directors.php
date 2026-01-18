@@ -16,8 +16,8 @@ require_once __DIR__ . '/../../templates/header.php';
                                 <label for="name" class="form-label">Nombres</label>
                                 <input type="text" class="form-control mb-3" id="name" name="name" required autofocus
                                     placeholder="Ej: Tom, Emma, Robert">
-                                <lablel for="last_name" class="form-label">Apellidos</label>
-                                    <input type="text" class="form-control mb-3" id="last_name" name="last_name"
+                                <label for="surname" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control mb-3" id="surname" name="surname"
                                         required autofocus placeholder="Ej: Hanks, Stone, Downey Jr.">
                                     <label for="birth_date" class="form-label">Fecha de Nacimiento</label>
                                     <input type="date" class="form-control mb-3" id="birth_date" name="birth_date"

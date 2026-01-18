@@ -23,8 +23,8 @@ $id;
                                 <input type="text" class="form-control mb-3" id="surname" name="surname" required
                                     autofocus placeholder="Ej: García, López, Martínez"
                                     value="<?php echo htmlspecialchars($actorToEdit->getSurname()); ?>">
-                                <label for="birthdate" class="form-label">Fecha de nacimiento</label>
-                                <input type="date" class="form-control mb-3" id="birthdate" name="birthdate" required
+                                <label for="birth_date" class="form-label">Fecha de nacimiento</label>
+                                <input type="date" class="form-control mb-3" id="birth_date" name="birth_date" required
                                     autofocus value="<?php echo htmlspecialchars($actorToEdit->getBirthdate()); ?>">
                                 <label for="nationality" class="form-label">Nacionalidad</label>
                                 <input type="text" class="form-control mb-3" id="nationality" name="nationality"

@@ -103,6 +103,14 @@ class Serie
         $subtitleLanguages = self::getSubLanguagesObj($serieId);
         $platform = Platform::getById($row['plataforma']);
         $director = Directors::getById($row['director']);
+
+        if (!$platform) {
+            $platform = new platform(null, 'No registrado');
+        }
+        if (!$director) {
+            $director = new directors(null, 'No registrado','',null, null);
+        }
+
         $serie = new Serie(
             $serieId = $row['id'],
             $row['titulo'],

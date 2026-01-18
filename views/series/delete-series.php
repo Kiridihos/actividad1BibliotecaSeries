@@ -1,5 +1,5 @@
 <?php
-$pageTitle = 'Actores';
+$pageTitle = 'Series';
 require_once __DIR__ . '/../../templates/header.php';
 ?>
 <section class="container centered-content">
@@ -11,17 +11,15 @@ require_once __DIR__ . '/../../templates/header.php';
                         <h2 class="card-title">Confirmar Eliminación</h2>
                     </div>
                     <div class="card-body">
-                        <p class="lead">¿Estás seguro de que deseas eliminar este actor?</p>
+                        <p class="lead">¿Estás seguro de que deseas eliminar esta serie?</p>
                         <div class="alert alert-warning">
-                            <strong>Actor:</strong>
-                            <?php echo htmlspecialchars($actorToDelete->getName() . ' ' . $actorToDelete->getSurname()); ?>
+                            <strong>Serie:</strong> <?php echo htmlspecialchars($serieToDelete->getTitle()); ?>
                         </div>
                         <p class="text-muted">Esta acción no se puede deshacer.</p>
-                        <form method="POST" action="?entity=actors&action=destroy">
-                            <input type="hidden" name="id"
-                                value="<?php echo htmlspecialchars($actorToDelete->getId()); ?>">
+                        <form method="POST" action="?entity=series&action=destroy">
+                            <input type="hidden" name="id" value="<?php echo htmlspecialchars($serieToDelete->getId()); ?>">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="?entity=actors" class="btn btn-secondary">
+                                <a href="?entity=series" class="btn btn-secondary">
                                     <i class="bi bi-arrow-left"></i> Cancelar
                                 </a>
                                 <button type="submit" class="btn btn-primary">

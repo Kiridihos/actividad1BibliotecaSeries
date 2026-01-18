@@ -5,15 +5,15 @@ class Actors
     private $id;
     private $name;
     private $surname;
-    private $birthdate;
+    private $birth_date;
     private $nationality;
 
-    public function __construct($id, $name, $surname, $birthdate, $nationality)
+    public function __construct($id, $name, $surname, $birth_date, $nationality)
     {
         $this->id = $id;
         $this->name = $name;
         $this->surname = $surname;
-        $this->birthdate = $birthdate;
+        $this->birth_date = $birth_date;
         $this->nationality = $nationality;
     }
 
@@ -43,11 +43,11 @@ class Actors
     }
     public function getBirthdate()
     {
-        return $this->birthdate;
+        return $this->birth_date;
     }
-    public function setBirthdate($birthdate)
+    public function setBirthdate($birth_date)
     {
-        $this->birthdate = $birthdate;
+        $this->birth_date = $birth_date;
     }
     public function getNationality()
     {
@@ -119,12 +119,12 @@ class Actors
         $dbConn = new DBConnection();
         $db = $dbConn->getConnection();
 
-        if($this->id == null){
+        if ($this->id == null) {
             $query = "INSERT INTO actores (nombres, apellidos, fecha_nacimiento, nacionalidad) VALUES (?, ?, ?, ?)";
             $stmt = $db->prepare($query);
-            $stmt->execute([$this->name, $this->surname, $this->birthdate, $this->nationality]);
-            
-            if($stmt){
+            $stmt->execute([$this->name, $this->surname, $this->birth_date, $this->nationality]);
+
+            if ($stmt) {
                 $this->id = $db->insert_id;
                 return true;
             }
@@ -133,14 +133,15 @@ class Actors
             // Actualizar actor existente
             $query = "UPDATE actores SET nombres = ?, apellidos = ?, fecha_nacimiento = ?, nacionalidad = ? WHERE id = ?";
             $stmt = $db->prepare($query);
-            $stmt->execute([$this->name, $this->surname, $this->birthdate, $this->nationality, $this->id]);
+            $stmt->execute([$this->name, $this->surname, $this->birth_date, $this->nationality, $this->id]);
             return $stmt->affected_rows > 0;
 
         }
         $dbConn->closeConnection();
     }
     // Eliminar un actor de la base de datos
-    public function delete(){
+    public function delete()
+    {
         $dbConn = new DBConnection();
         $db = $dbConn->getConnection();
 
@@ -150,33 +151,43 @@ class Actors
         $query = "DELETE FROM actores WHERE id = ?";
         $stmt = $db->prepare($query);
         $result = $stmt->execute([$this->id]);
-    
+
         if ($result) {
             $this->id = null; //limpiar el ID del objeto después de eliminarlo
             $this->name = null;
             $this->surname = null;
-            $this->birthdate = null;
+            $this->birth_date = null;
             $this->nationality = null;
         }
         $dbConn->closeConnection();
         return $stmt->affected_rows > 0;
     }
     // Crear un nuevo actor en la base de datos
-    public static function create($name, $surname, $birthdate, $nationality){
-        $actor = new Actors(null, $name, $surname, $birthdate, $nationality);
+    public static function create($name, $surname, $birth_date, $nationality)
+    {
+        $actor = new Actors(null, $name, $surname, $birth_date, $nationality);
         return $actor->save();
     }
     // Actualizar un actor existente en la base de datos
-    public static function update($name, $surname, $birthdate, $nationality){
-        $actor = new Actors(null, $name, $surname, $birthdate, $nationality);
+    public static function update($name, $surname, $birth_date, $nationality)
+    {
+        $actor = new Actors(null, $name, $surname, $birth_date, $nationality);
         return $actor->save();
     }
     // Eliminar un actor por su ID
-    public static function deleteById($id){
+    public static function deleteById($id)
+    {
         $actor = self::getById($id);
         if ($actor != null) {
             return $actor->delete();
         }
-        return false; 
+        return false;
+    }
+    public function equals($other)
+    {
+        if ($other instanceof self) {
+            return $this->id == $other->id;
+        }
+        return false;
     }
 }

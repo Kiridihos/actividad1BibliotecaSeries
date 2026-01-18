@@ -21,16 +21,17 @@
 
     <section class="container centered-content">
         <nav class="navbar navbar-expand-lg navbar-light align-items-center mb-4">
-            <a class="navbar-brand" href="../../index.html">
-                <img src="../imgs/video-folder.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+            <a class="navbar-brand" href="../../index.php">
+                <img src="/../views/imgs/video-folder.png" alt="Logo" width="30" height="30"
+                    class="d-inline-block align-top">
                 Biblioteca de series</a>
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav mx-auto">
-                    <a class="nav-item nav-link" href="../series/list-series.html">Series</a>
-                    <a class="nav-item nav-link" href="../actors/list-actors.html">Actores</a>
-                    <a class="nav-item nav-link" href="../directors/list-directors.html">Directores</a>
-                    <a class="nav-item nav-link" href="../platforms/list-platforms.php">Plataformas</a>
-                    <a class="nav-item nav-link" href="../languages/list-languages.php">Idiomas</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=series&action=index">Series</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=actors&action=index">Actores</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=directors&action=index">Directores</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=platforms&action=index">Plataformas</a>
+                    <a class="nav-item nav-link" href="../../index.php?entity=languages&action=index">Idiomas</a>
                 </div>
             </div>
         </nav>

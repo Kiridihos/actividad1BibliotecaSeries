@@ -19,19 +19,19 @@ class DirectorController
     }
     public function store()
     {
-        if( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'], $_POST['surname'], $_POST['birthdate'], $_POST['nationality']) ) {
+        if( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'], $_POST['surname'], $_POST['birth_date'], $_POST['nationality']) ) {
             $name = trim($_POST['name']);
             $surname = trim($_POST['surname']);
-            $birthdate = trim($_POST['birthdate']);
+            $birth_date = trim($_POST['birth_date']);
             $nationality = trim($_POST['nationality']);
             // Condicion de validación de los campos
-            if (empty($name) || empty($surname) || empty($birthdate) || empty($nationality)) {
+            if (empty($name) || empty($surname) || empty($birth_date) || empty($nationality)) {
                 $_SESSION['error'] = 'Todos los campos son obligatorios.';
                 header('Location: index.php?entity=directors&action=create');
                 exit;
             }
 
-            $director = new Directors(null, ucfirst($name), ucfirst($surname), $birthdate, ucfirst($nationality));
+            $director = new Directors(null, ucfirst($name), ucfirst($surname), $birth_date, ucfirst($nationality));
             if ($director->save()) {
                 $_SESSION['success'] = 'Director creado exitosamente';
                 header('Location: index.php?entity=directors');
@@ -48,25 +48,25 @@ class DirectorController
     }
     public function update()
     {
-        if( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'], $_POST['name'], $_POST['surname'], $_POST['birthdate'], $_POST['nationality']) ) {
+        if( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'], $_POST['name'], $_POST['surname'], $_POST['birth_date'], $_POST['nationality']) ) {
             $id = trim($_POST['id']);
             $name = trim($_POST['name']);
             $surname = trim($_POST['surname']);
-            $birthdate = trim($_POST['birthdate']);
+            $birth_date = trim($_POST['birth_date']);
             $nationality = trim($_POST['nationality']);
             // Condicion de validación de los campos
-            if (empty($name) || empty($surname) || empty($birthdate) || empty($nationality)) {
+            if (empty($name) || empty($surname) || empty($birth_date) || empty($nationality)) {
                 $_SESSION['error'] = 'Todos los campos son obligatorios.';
                 header('Location: index.php?entity=directors&action=edit&id=' . $id);
                 exit;
             }
-            $director = Directors::getById($id);
-            if ($director != null) {
-                $director->setName(ucfirst($name));
-                $director->setSurname(ucfirst($surname));
-                $director->setBirthdate($birthdate);
-                $director->setNationality(ucfirst($nationality));
-                if ($director->save()) {
+            $directorToEdit = Directors::getById($id);
+            if ($directorToEdit != null) {
+                $directorToEdit->setName(ucfirst($name));
+                $directorToEdit->setSurname(ucfirst($surname));
+                $directorToEdit->setBirthdate($birth_date);
+                $directorToEdit->setNationality(ucfirst($nationality));
+                if ($directorToEdit->save()) {
                     $_SESSION['success'] = 'Director actualizado exitosamente';
                     header('Location: index.php?entity=directors');
                     exit;
@@ -92,8 +92,8 @@ class DirectorController
             exit;
         }
         $id = (int)$_GET['id'];
-        $director = Directors::getById($id);
-        if (!$director) {
+        $directorToDelete = Directors::getById($id);
+        if (!$directorToDelete) {
             $_SESSION['error'] = 'Director no encontrado.';
             header('Location: index.php?entity=directors');
             exit;
